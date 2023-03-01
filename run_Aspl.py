@@ -21,6 +21,18 @@ pointer = array_length // 2
 
 def commands(char):
     global array, pointer
+    
+    def print_all():
+        str_out = ""
+        for val in array:
+            if val != 0:
+                str_out += chr(val)
+        print(str_out)
+
+    def hold():
+        print("")
+        input("Press enter to continue")
+    
     match char:
         case "+": array[pointer] += 1
         case "-": array[pointer] -= 1
@@ -34,16 +46,7 @@ def commands(char):
         case "a": print_all()
         case "h": hold()
 
-def print_all():
-    str_out = ""
-    for val in array:
-        if val != 0:
-            str_out += chr(val)
-    print(str_out)
 
-def hold():
-    print("")
-    input("Press enter to continue")
 
 def complex_command(commands):
     commands = "".join(commands).replace("[", "").replace("]", "").split(",")
@@ -90,30 +93,38 @@ def complex_command(commands):
     def o(commands):
         array[pointer] = ord(commands[1])
 
-    def w(commands):
-        num = commands[1]
-        for i in range(num):
-            run(commands[2])
+    def k(commands):
+        for i in range(int(commands[2])):
+            run(commands[1])
 
-
+    def j(commands):
+        return int(commands[1]) if array[pointer] != 0 else None
+    
     match cmd:
         case "f": f(commands) #find
         case "b": b(commands) #pointer to commands[1]
         case "l": l(commands) #interpret commands[1] as roman numerals
         case "o": o(commands) #ord
-        case "w": w(commands) #while loop
+        case "k": k(commands) #loop commands[1] commands[2] times
+        case "j": return j(commands) #jump to commands[1] char index in the input string if array[pointer] != 0
 
 
 str_input = open(file_path, "r").read()
 
 def run(str_input):
     command_queue = []
-    for char in str_input:
+    i = 0
+    while True:
+        if i >= len(str_input):
+            break
+        char = str_input[i]
         if char == "[":
             command_queue.append(char)
         elif char == "]":
             command_queue.append(char)
-            complex_command(command_queue)
+            return_val = complex_command(command_queue)
+            if return_val != None:
+                i = return_val
             command_queue = []
         elif command_queue != []:
             command_queue.append(char)
@@ -121,6 +132,7 @@ def run(str_input):
             commands(char)
         else:
             print("Invalid command: " + char)
+        i += 1
 
 if __name__ == "__main__":
     run(str_input)
