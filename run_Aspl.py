@@ -45,6 +45,7 @@ def commands(char):
         case "s": array[pointer] = ord(input()[0])
         case "a": print_all()
         case "h": hold()
+        case "t": print("execution time: " + str(int((time.time() - t1)*1000)) + "ms")
 
 
 
@@ -128,7 +129,7 @@ def run(str_input):
             command_queue = []
         elif command_queue != []:
             command_queue.append(char)
-        elif char in "+-><rpcisah":
+        elif char in "+-><rpcisaht":
             commands(char)
         else:
             print("Invalid command: " + char)
