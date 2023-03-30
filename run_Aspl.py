@@ -19,7 +19,7 @@ array = [0 for i in range(array_length)]
 pointer = array_length // 2
 
 
-def commands(char):
+def commands(char: str) -> None:
     global array, pointer
     
     def print_all():
@@ -49,7 +49,7 @@ def commands(char):
 
 
 
-def complex_command(commands):
+def complex_command(commands : list[str]) -> None:
     commands = "".join(commands).replace("[", "").replace("]", "").split(",")
     #takes a array, where the first element is the command and the rest are the arguments
     cmd = commands[0]
@@ -112,7 +112,7 @@ def complex_command(commands):
 
 str_input = open(file_path, "r").read()
 
-def run(str_input):
+def run(str_input: str) -> None:
     command_queue = []
     i = 0
     while True:
